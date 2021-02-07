@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Temperature Hot</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="shortcut icon" href="images/favicon.png" type="image/x-icon">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body {
+            background: url(images/bg-image.jpg) no-repeat;
+            background-size: cover;
+            height: 100vh;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <form class="col-md-6 m-auto py-5">
+            <div class="input-group mb-3">
+                <input type="text" id="city-input" class="form-control" placeholder="Enter a location for Weather ...">
+                <div class="input-group-append">
+                    <button type="button" class="btn btn-danger" id="search-button">Search</button>
+                </div>
+            </div>
+        </form>
+        <div class="weather-status text-white text-center">
+            <img id="image-icon" src="" alt="">
+            <h1 id="show_city">Dhaka</h1>
+            <h3><span id="show_temperature"></span>&deg;C</h3>
+            <h1 id="weather_status" class="lead">Rain</h1>
+        </div>
+    </div>
+
+    <script>
+    //search button click kora holo
+    document.getElementById('search-button').addEventListener('click', () => {
+    const cityName = document.getElementById('city-input').value;
+    getWeatherData(cityName)
+    })
+
+    ///help nicche getWeatherData function er
+    const apiKey = 'b6cc4392568a3586e950307c86a22bbd';
+    const apiBase = 'https://api.openweathermap.org/data/2.5/weather';
+
+    function getWeatherData(city) {
+    const url = `${apiBase}?q=${city}&units=metric&appid=${apiKey}`;
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+                  document.getElementById('show_city').innerText = data.name || "Check the spelling!";
+                  document.getElementById("show_temperature").innerText=data.main.temp;
+                  document.getElementById("weather_status").innerText=data.weather[0].main;
+
+                //   const weatherStatus=data.weather[0].main;
+                  const iconCode=data.weather[0].icon;
+                //   console.log(iconCode)
+                document.getElementById('image-icon').setAttribute('src', `https://openweathermap.org/img/wn/${iconCode}@2x.png`);
+               
+                                
+                      }//then.data-function
+              )//then.data
+              
+                                    }//getWeatherDataend
+                              
+
+                 
+          
+         
+
+
+    
+    
+    
+
+        document.getElementById("show_city").innerText="";
+        
+        getWeatherData('Dhaka');
+        
+    </script>
+</body>
+
+</html>

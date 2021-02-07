@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -50,168 +50,26 @@
                     <button id="search-button" class="btn btn-success search-btn">Search</button>
                 </div>
             </div>
-            <!-- === Simple results === -->
-            <div class="d-flex justify-content-center">
-                <div class="">
-                    <p class="author lead"><strong>Purple Noon</strong> Album by <span>Washed Out</span> <button class="btn btn-success">Get Lyrics</button></p>
-                    <p class="author lead"><strong>Purple Noon</strong> Album by <span>Washed Out</span> <button class="btn btn-success">Get Lyrics</button></p>
-                    <p class="author lead"><strong>Purple Noon</strong> Album by <span>Washed Out</span> <button class="btn btn-success">Get Lyrics</button></p>
-                    <p class="author lead"><strong>Purple Noon</strong> Album by <span>Washed Out</span> <button class="btn btn-success">Get Lyrics</button></p>
-                    <p class="author lead"><strong>Purple Noon</strong> Album by <span>Washed Out</span> <button class="btn btn-success">Get Lyrics</button></p>
-                </div>
-            </div>
+
             <!-- Single Lyrics -->
             <div class="single-lyrics text-center">
                 <button class="btn go-back">&lsaquo;</button>
-                <h2 class="text-success mb-4">Pentatonix - Na Na Na</h2>
-                <pre class="lyric text-white">
-    Wont go whistling like the wind blows,
+                <h2 class="text-success mb-4" id="demoTitle"></h2>
+                <pre class="lyric text-white" id="demo">
+    <!-- Wont go whistling like the wind blows,
     Looking out my window,
     Just to see the shine
     Maybe you might call it crazy,
     How Im acting lately,
 
-    Skipping through the sky
-
-
-
-     I see so clearly,
-
-    Why Im always feeling free.
-
-    So I sleep when my dreams,
-
-    Looking like reality
-
-
-
-    (Gonna feel it! Na na na...) x4
-
-
-
-    Gonna feel it!
-
-
-
-    I know where the greener grass grows
-
-    Youll just have to follow
-
-    To the other side
-
-
-
-     Lets go tiptoe on a tight rope,
-
-    Fallings only natural
-
-    Just spread your wings and fly
-
-
-
-    Youll see so clearly,
-
-    Why Im always feeling free.
-
-    So I sleep when our dreams
-
-    Looking like reality
-
-
-
-    (Gonna feel it! Na na na...) x4
-
-
-
-    Bring it down like
-
-    Ohh way oh
-
-    Yeah yeah yeah yeah yeah yeah
-
-    Break it down like
-
-    Ohh way oh
-
-     Yeah, yeah, yeah...
-
-    All around like
-
-    Ohh way oh
-
-    Yeah, yeah, yeah...
-
-    Sing it loud like!
-
-    Ohh way oh
-
-    Ah oo oo ooo
-
-
-
-     Gonna feel it! (Na na na...)
-
-     Make it sound like! (Na na na...)
-
-    All around like! (Na na na...)
-
-    Sing it loud like! (Na na na...)
-
-    Gonna feel like! (Na na na...)
+    Skipping through the sky -->
                 </pre>
             </div>
             <!-- === Fancy results === -->
-            <div class="search-result col-md-8 mx-auto py-4">
-                <!-- single result -->
-                <div class="single-result row align-items-center my-3 p-3">
-                    <div class="col-md-9">
-                        <h3 class="lyrics-name">Purple Noon</h3>
-                        <p class="author lead">Album by <span>Washed Out</span></p>
-                    </div>
-                    <div class="col-md-3 text-md-right text-center">
-                        <button class="btn btn-success">Get Lyrics</button>
-                    </div>
-                </div>
-                <!-- ./ single result -->
-
-                <!-- single result -->
-                <div class="single-result row align-items-center my-3 p-3">
-                    <div class="col-md-9">
-                        <h3 class="lyrics-name">Purple Noon</h3>
-                        <p class="author lead">Album by <span>Washed Out</span></p>
-                    </div>
-                    <div class="col-md-3 text-md-right text-center">
-                        <button class="btn btn-success">Get Lyrics</button>
-                    </div>
-                </div>
-                <!-- ./ single result -->
-                <!-- single result -->
-                <div class="single-result row align-items-center my-3 p-3">
-                    <div class="col-md-9">
-                        <h3 class="lyrics-name">Purple Noon</h3>
-                        <p class="author lead">Album by <span>Washed Out</span></p>
-                    </div>
-                    <div class="col-md-3 text-md-right text-center">
-                        <button class="btn btn-success">Get Lyrics</button>
-                    </div>
-                </div>
-                <!-- ./ single result -->
-                <!-- single result -->
-                <div class="single-result row align-items-center my-3 p-3">
-                    <div class="col-md-9">
-                        <h3 class="lyrics-name">Purple Noon</h3>
-                        <p class="author lead">Album by <span>Washed Out</span></p>
-                    </div>
-                    <div class="col-md-3 text-md-right text-center">
-                        <button class="btn btn-success">Get Lyrics</button>
-                    </div>
-                </div>
-                <!-- ./ single result -->
+            <div class="search-result col-md-8 mx-auto py-4" id="sr">
             </div>
-
-
-
         </main>
+
     </div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -223,32 +81,55 @@
 
     <script>
         document.getElementById("search-button").addEventListener("click",function(){
-         const fi=document.getElementById("form-input").value;
-         show(fi);
+         const finput=document.getElementById("form-input").value;
+         show(finput);
         })
          
-        const apibase="https://api.lyrics.ovh/";
-        
-        function show(fi){
-            fetch(`${apibase}suggest/${fi}`)
+
+        function showlyrics(singer,song) {
+                
+                fetch(`https://api.lyrics.ovh/v1/${singer}/${song}`)
                 .then(response=>response.json())
                 .then(json=>{
-                        for(var i=0;i<=10;i++){
-                            console.log(`Title:${json.data[i].title} Album: ${json.data[i].album.title} by ${json.data[i].artist.name}`);
-                            
-                        }
-                       
-                    
-                 
-         })
-        }
-       
+                    // document.getElementById("demo").innerHTML =json;
+                    console.log(json);
+                    document.getElementById("demoTitle").innerText=song;
+                    document.getElementById("demo").innerText=json.lyrics;
+                })
+                                  }//function showlyrics 
 
-         
-
-    
+        const apibase="https://api.lyrics.ovh/";
         
+        function show(finput){
+            fetch(`${apibase}suggest/${finput}`)
+                .then(response=>response.json())
+                .then(json=>{
+                        for(var i=0;i<10;i++){
+                        
+
+    console.log(`Title:${json.data[i].title} Album: ${json.data[i].album.title} By ${json.data[i].artist.name}`); 
+   
+    
+    //issue-tracker theke idea paisilam erokom.
+
+    const sResult=document.getElementById("sr");
+    sResult.innerHTML += `<div class="single-result row align-items-center my-3 p-3">
+                    <div class="col-md-9">
+                        <h3 class="lyrics-name">${json.data[i].title}</h3>
+                        
+                        <p class="author lead">Album by <span><b>${json.data[i].artist.name}</b> </span></p>
+                    </div>
+                    <div class="col-md-3 text-md-right text-center">
+                        <button onclick="showlyrics('${json.data[i].artist.name}','${json.data[i].title}')"  class="btn btn-success" > Get Lyrics </button>
+                    </div>
+                </div>
+
+            </div>`;
+                        }//for loop
+         })//.then(json)
+        }//function show
     </script>
+    
 </body>
 
 </html>
